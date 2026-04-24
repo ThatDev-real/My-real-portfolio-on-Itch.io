@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThatDev</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #111111;
+    --surface: #1a1a1a;
+    --surface2: #222222;
+    --border: #333333;
+    --white: #f0f0f0;
+    --muted: #666666;
+    --blue: #4a9eff;
+    --red: #ff4455;
+    --pixel: 'Press Start 2P', monospace;
+    --body: 'Inter', sans-serif;
+  }
+
+  html { image-rendering: pixelated; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    font-size: 14px;
+    padding: 28px 20px 48px;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* pixel border utility */
+  .px-border {
+    border: 2px solid var(--border);
+    box-shadow:
+      -2px 0 0 0 var(--bg),
+      2px 0 0 0 var(--bg),
+      0 -2px 0 0 var(--bg),
+      0 2px 0 0 var(--bg),
+      -4px 0 0 0 var(--border),
+      4px 0 0 0 var(--border),
+      0 -4px 0 0 var(--border),
+      0 4px 0 0 var(--border);
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .avatar {
+    width: 72px; height: 72px;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    overflow: hidden;
+    image-rendering: pixelated;
+    position: relative;
+  }
+
+  /* hand-drawn pixel face */
+  .avatar canvas {
+    width: 100%; height: 100%;
+  }
+
+  .header-right { flex: 1; padding-top: 4px; }
+
+  .name {
+    font-family: var(--pixel);
+    font-size: 0.75rem;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .name .blue { color: var(--blue); }
+  .name .red { color: var(--red); }
+
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--blue);
+    animation: blink-dot 1.5s step-end infinite;
+    flex-shrink: 0;
+  }
+  @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .status-text {
+    font-family: var(--pixel);
+    font-size: 0.45rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 2px;
+    background: var(--border);
+    margin: 20px 0;
+    position: relative;
+  }
+  .divider::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 40px; height: 2px;
+    background: var(--blue);
+  }
+  .divider::after {
+    content: '';
+    position: absolute;
+    left: 40px; top: 0;
+    width: 20px; height: 2px;
+    background: var(--red);
+  }
+
+  /* BIO */
+  .bio {
+    background: var(--surface);
+    border-left: 3px solid var(--blue);
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .bio-label {
+    font-family: var(--pixel);
+    font-size: 0.45rem;
+    color: var(--blue);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .bio p {
+    font-size: 0.9rem;
+    color: #cccccc;
+    line-height: 1.7;
+  }
+  .bio p em {
+    color: var(--muted);
+    font-style: normal;
+    font-size: 0.8rem;
+  }
+
+  /* LINKS */
+  .section-title {
+    font-family: var(--pixel);
+    font-size: 0.5rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  .links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--muted);
+    font-family: var(--pixel);
+    font-size: 0.45rem;
+    letter-spacing: 1px;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .link-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s;
+  }
+  .link-btn.blue-hover::before { background: var(--blue); }
+  .link-btn.red-hover::before { background: var(--red); }
+  .link-btn:hover { color: var(--white); border-color: #444; }
+  .link-btn:hover::before { transform: scaleX(1); }
+
+  .link-icon {
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+  .link-btn:hover .link-icon { opacity: 1; }
+
+  /* GAMES */
+  .games { margin-bottom: 8px; }
+
+  .game-card {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s;
+    overflow: hidden;
+    position: relative;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--blue);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.2s;
+  }
+  .game-card:hover::before { transform: scaleY(1); }
+  .game-card:hover { border-color: #444; }
+
+  .game-thumb {
+    width: 80px;
+    min-height: 64px;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--pixel);
+    font-size: 0.4rem;
+    color: var(--border);
+    letter-spacing: 1px;
+    border-right: 1px solid var(--border);
+    image-rendering: pixelated;
+  }
+
+  .game-body {
+    padding: 12px 12px 12px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .game-title {
+    font-family: var(--pixel);
+    font-size: 0.55rem;
+    color: var(--white);
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .game-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .game-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .badge {
+    font-family: var(--pixel);
+    font-size: 0.38rem;
+    letter-spacing: 1px;
+    padding: 3px 6px;
+  }
+  .badge-new { background: var(--red); color: #fff; }
+  .badge-wip {
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    animation: blink-wip 2s step-end infinite;
+  }
+  @keyframes blink-wip { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-text {
+    font-family: var(--pixel);
+    font-size: 0.4rem;
+    color: var(--border);
+    letter-spacing: 1px;
+    line-height: 2;
+  }
+  .footer-pixels {
+    display: flex; gap: 3px;
+  }
+  .fp {
+    width: 8px; height: 8px;
+  }
+  .MyAvatar {
+    width: 72px; height: 72px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar">
+      <img class="MyAvatar" src="/img/ThatDudeAvatar_CE.png" alt="My avatar">
+    </div>
+    <div class="header-right">
+      <div class="name">
+        <span class="blue">THAT</span><span class="red">DEV</span>
+      </div>
+      <div class="status-bar">
+        <div class="status-dot"></div>
+        <div class="status-text">INDIE DEV // BUILDING STUFF</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BIO -->
+  <div class="bio">
+    <div class="bio-label">// ABOUT.TXT</div>
+    <p>Game dev, that have almost endless ideas for games... but almost no time. <em>(why is this so philosophical)</em></p>
+  </div>
+
+  <!-- LINKS -->
+  <div class="section-title">FIND ME</div>
+  <div class="links">
+
+    <a href="mailto:thatdev1409@gmail.com" class="link-btn blue-hover">
+      <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="4" width="20" height="16" rx="1"/><path d="m2 7 10 7 10-7"/>
+      </svg>
+      EMAIL
+    </a>
+
+    <a href="https://x.com/ThatDev_real.com" class="link-btn red-hover">
+      <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      TWITTER
+    </a>
+
+    <a href="https://www.youtube.com/@ThatDev-real" class="link-btn red-hover">
+      <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+      YOUTUBE
+    </a>
+
+    <a href="https://github.com/ThatDev-real" class="link-btn blue-hover">
+      <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      GITHUB
+    </a>
+
+  </div>
+
+  <!-- GAMES -->
+  <div class="games">
+    <div class="section-title">GAMES</div>
+
+    <a href="https://thatdev.itch.io" class="game-card">
+      <div class="game-thumb">COVER</div>
+      <div class="game-body">
+        <div class="game-title">Recycle Tycoon</div>
+        <div class="game-desc">Build your own recycle empire! Make Earth more green and cleaner!</div>
+        <div class="game-meta">
+          <div class="badge badge-new">NEW (Still in development)</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://thatdev.itch.io" class="game-card">
+      <div class="game-thumb">WIP</div>
+      <div class="game-body">
+        <div class="game-title">Find ASCII symbol</div>
+        <div class="game-desc">Something is cooking. Follow to find out.</div>
+        <div class="game-meta">
+          <div class="badge badge-wip">IN DEV</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-text">THATDEV © 2025<br>MADE WITH PIXELS</div>
+    <div class="footer-pixels">
+      <svg width="32" height="8" viewBox="0 0 32 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" width="8" height="8" fill="#333"/>
+        <rect x="2" y="2" width="4" height="4" fill="#4a9eff"/>
+        <rect x="10" width="8" height="8" fill="#333"/>
+        <rect x="12" y="2" width="4" height="4" fill="#ff4455"/>
+        <rect x="20" width="8" height="8" fill="#333"/>
+        <rect x="22" y="2" width="4" height="4" fill="#f0f0f0" opacity="0.3"/>
+      </svg>
+    </div>
+  </div>
+
+<script>
+  // Draw a simple pixel art avatar on canvas
+  const canvas = document.getElementById('avatarCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+
+  const B = '#111111'; // bg
+  const W = '#f0f0f0'; // white
+  const S = '#333333'; // shadow
+  const L = '#4a9eff'; // blue
+  const R = '#ff4455'; // red
+
+  // 16x16 pixel art character face
+  const pixels = [
+    B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,
+    B,B,B,B,S,S,S,S,S,S,S,B,B,B,B,B,
+    B,B,B,S,W,W,W,W,W,W,W,S,B,B,B,B,
+    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
+    B,B,S,W,L,L,W,W,W,R,R,W,S,B,B,B,
+    B,B,S,W,L,L,W,W,W,R,R,W,S,B,B,B,
+    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
+    B,B,S,W,W,S,W,W,W,S,W,W,S,B,B,B,
+    B,B,S,W,W,W,S,S,S,W,W,W,S,B,B,B,
+    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
+    B,B,B,S,W,W,W,W,W,W,W,S,B,B,B,B,
+    B,B,B,B,S,S,S,W,W,S,S,B,B,B,B,B,
+    B,B,B,B,B,B,S,W,W,S,B,B,B,B,B,B,
+    B,B,B,B,B,S,W,W,W,W,S,B,B,B,B,B,
+    B,B,B,B,S,W,W,W,W,W,W,S,B,B,B,B,
+    B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,
+  ];
+
+  pixels.forEach((color, i) => {
+    const x = i % 16;
+    const y = Math.floor(i / 16);
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, 1, 1);
+  });
+</script>
+
+</body>
+</html>
