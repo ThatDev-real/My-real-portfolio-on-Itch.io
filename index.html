@@ -394,8 +394,8 @@
   <div class="games">
     <div class="section-title">GAMES</div>
 
-    <a href="https://thatdev.itch.io" class="game-card">
-      <div class="game-thumb">COVER</div>
+    <a href="https://thatdev-real.itch.io" class="game-card">
+      <div class="game-thumb">???</div>
       <div class="game-body">
         <div class="game-title">Recycle Tycoon</div>
         <div class="game-desc">Build your own recycle empire! Make Earth more green and cleaner!</div>
@@ -405,7 +405,7 @@
       </div>
     </a>
 
-    <a href="https://thatdev.itch.io" class="game-card">
+    <a href="https://www.youtube.com/@ThatDev-real" class="game-card">
       <div class="game-thumb">WIP</div>
       <div class="game-body">
         <div class="game-title">Find ASCII symbol</div>
@@ -432,46 +432,6 @@
       </svg>
     </div>
   </div>
-
-<script>
-  // Draw a simple pixel art avatar on canvas
-  const canvas = document.getElementById('avatarCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
-
-  const B = '#111111'; // bg
-  const W = '#f0f0f0'; // white
-  const S = '#333333'; // shadow
-  const L = '#4a9eff'; // blue
-  const R = '#ff4455'; // red
-
-  // 16x16 pixel art character face
-  const pixels = [
-    B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,
-    B,B,B,B,S,S,S,S,S,S,S,B,B,B,B,B,
-    B,B,B,S,W,W,W,W,W,W,W,S,B,B,B,B,
-    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
-    B,B,S,W,L,L,W,W,W,R,R,W,S,B,B,B,
-    B,B,S,W,L,L,W,W,W,R,R,W,S,B,B,B,
-    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
-    B,B,S,W,W,S,W,W,W,S,W,W,S,B,B,B,
-    B,B,S,W,W,W,S,S,S,W,W,W,S,B,B,B,
-    B,B,S,W,W,W,W,W,W,W,W,W,S,B,B,B,
-    B,B,B,S,W,W,W,W,W,W,W,S,B,B,B,B,
-    B,B,B,B,S,S,S,W,W,S,S,B,B,B,B,B,
-    B,B,B,B,B,B,S,W,W,S,B,B,B,B,B,B,
-    B,B,B,B,B,S,W,W,W,W,S,B,B,B,B,B,
-    B,B,B,B,S,W,W,W,W,W,W,S,B,B,B,B,
-    B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,
-  ];
-
-  pixels.forEach((color, i) => {
-    const x = i % 16;
-    const y = Math.floor(i / 16);
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, 1, 1);
-  });
-</script>
 
 </body>
 </html>
